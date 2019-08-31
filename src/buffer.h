@@ -740,6 +740,10 @@ struct buffer
      in the display of this buffer.  */
   Lisp_Object extra_line_spacing_;
 
+  /* When non-nil will center the line content vertically. To be used
+     along with `line-spacing'.  */
+  Lisp_Object line_spacing_vertical_center_;
+
   /* Cursor type to display in non-selected windows.
      t means to use hollow box cursor.
      See `cursor-type' for other values.  */

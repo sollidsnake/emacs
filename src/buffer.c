@@ -219,6 +219,11 @@ bset_extra_line_spacing (struct buffer *b, Lisp_Object val)
   b->extra_line_spacing_ = val;
 }
 static void
+bset_line_spacing_vertical_center (struct buffer *b, Lisp_Object val)
+{
+  b->line_spacing_vertical_center_ = val;
+}
+static void
 bset_file_format (struct buffer *b, Lisp_Object val)
 {
   b->file_format_ = val;
@@ -956,6 +961,7 @@ reset_buffer (register struct buffer *b)
     (b, BVAR (&buffer_defaults, enable_multibyte_characters));
   bset_cursor_type (b, BVAR (&buffer_defaults, cursor_type));
   bset_extra_line_spacing (b, BVAR (&buffer_defaults, extra_line_spacing));
+  bset_line_spacing_vertical_center (b, BVAR (&buffer_defaults, line_spacing_vertical_center));
 
   b->display_error_modiff = 0;
 }
@@ -5190,6 +5196,7 @@ init_buffer_once (void)
   XSETFASTINT (BVAR (&buffer_local_flags, header_line_format), idx); ++idx;
   XSETFASTINT (BVAR (&buffer_local_flags, cursor_type), idx); ++idx;
   XSETFASTINT (BVAR (&buffer_local_flags, extra_line_spacing), idx); ++idx;
+  XSETFASTINT (BVAR (&buffer_local_flags, line_spacing_vertical_center), idx); ++idx;
   XSETFASTINT (BVAR (&buffer_local_flags, cursor_in_non_selected_windows), idx); ++idx;
 
   /* buffer_local_flags contains no pointers, so it's safe to treat it
@@ -5259,6 +5266,7 @@ init_buffer_once (void)
   bset_bidi_paragraph_separate_re (&buffer_defaults, Qnil);
   bset_cursor_type (&buffer_defaults, Qt);
   bset_extra_line_spacing (&buffer_defaults, Qnil);
+  bset_line_spacing_vertical_center (&buffer_defaults, Qnil);
   bset_cursor_in_non_selected_windows (&buffer_defaults, Qt);
 
   bset_enable_multibyte_characters (&buffer_defaults, Qt);
@@ -6247,6 +6255,11 @@ The space is measured in pixels, and put below lines on graphic displays,
 see `display-graphic-p'.
 If value is a floating point number, it specifies the spacing relative
 to the default frame line height.  A value of nil means add no extra space.  */);
+
+  DEFVAR_PER_BUFFER ("line-spacing-vertical-center",
+		     &BVAR (current_buffer, line_spacing_vertical_center), Qnil,
+                     doc: /* Non-nil will center the line content vertically
+when using `line-spacing' variable.  */);
 
   DEFVAR_PER_BUFFER ("cursor-in-non-selected-windows",
 		     &BVAR (current_buffer, cursor_in_non_selected_windows), Qnil,

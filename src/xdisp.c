@@ -29294,7 +29294,13 @@ gui_produce_glyphs (struct it *it)
 
   if (extra_line_spacing > 0)
     {
-      it->descent += extra_line_spacing;
+      if (! BVAR (XBUFFER (it->w->contents), line_spacing_vertical_center)) {
+        it->descent += extra_line_spacing;
+      } else {
+        int spacing = extra_line_spacing / 2;
+        it->ascent += spacing;
+        it->descent += spacing;
+      }
       if (extra_line_spacing > it->max_extra_line_spacing)
 	it->max_extra_line_spacing = extra_line_spacing;
     }
